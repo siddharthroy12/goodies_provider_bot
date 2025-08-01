@@ -67,22 +67,22 @@ func (a *Application) sendRedditPorn(chatId int64) error {
 
 	for _, subreddit := range subreddits {
 		// First try to send best
-		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://reddit.com/r/%s", subreddit), chatId)
+		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://www.reddit.com/r/%s", subreddit), chatId)
 		if err != nil {
 			a.sendText(chatId, fmt.Sprintf("Something went wrong: %s", err.Error()))
 		}
 		// Then send hot
-		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://reddit.com/r/%s/hot", subreddit), chatId)
+		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://www.reddit.com/r/%s/hot", subreddit), chatId)
 		if err != nil {
 			a.sendText(chatId, fmt.Sprintf("Something went wrong: %s", err.Error()))
 		}
 		// Then send top
-		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://reddit.com/r/%s/top", subreddit), chatId)
+		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://www.reddit.com/r/%s/top", subreddit), chatId)
 		if err != nil {
 			a.sendText(chatId, fmt.Sprintf("Something went wrong: %s", err.Error()))
 		}
 		// Then send rising
-		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://reddit.com/r/%s/rising", subreddit), chatId)
+		err = a.sendPornForSubRedditPag(fmt.Sprintf("https://www.reddit.com/r/%s/rising", subreddit), chatId)
 		if err != nil {
 			a.sendText(chatId, fmt.Sprintf("Something went wrong: %s", err.Error()))
 		}
