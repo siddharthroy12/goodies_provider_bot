@@ -8,7 +8,7 @@ import (
 )
 
 func (a *Application) sendPornForSubRedditPag(page string, chatId int64) error {
-	html, err := fetchHTML(page)
+	html, err := a.fetchHTML(page)
 
 	if err != nil {
 		return err

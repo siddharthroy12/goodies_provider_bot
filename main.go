@@ -5,15 +5,18 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/joho/godotenv"
+	"siddharthroy.com/GoodiesProviderBot/internal/proxy"
 )
 
 type Application struct {
-	bot *tgbotapi.BotAPI
+	bot    *tgbotapi.BotAPI
+	client *http.Client
 }
 
 func main() {
@@ -28,8 +31,15 @@ func main() {
 		log.Panic(err)
 	}
 
+	client, _, err := proxy.CreateSpysProxyClient()
+	if err != nil {
+		// Abort if something is wrong
+		log.Panic(err)
+	}
+
 	application := Application{
-		bot: botAPI,
+		bot:    botAPI,
+		client: client,
 	}
 
 	// Set this to true to log all interactions with telegram servers

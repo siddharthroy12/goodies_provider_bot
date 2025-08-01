@@ -10,6 +10,7 @@ import (
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"golang.org/x/net/html"
+	"siddharthroy.com/GoodiesProviderBot/internal/proxy"
 )
 
 func (a *Application) sendText(chatId int64, message string) error {
@@ -106,11 +107,25 @@ func isVideoURL(url string) bool {
 	return false
 }
 
-// fetchHTML fetches HTML content from the given URL and returns it as a string.
-func fetchHTML(url string) (string, error) {
-	resp, err := http.Get(url)
+func (a *Application) updateProxy() error {
+	client, _, err := proxy.CreateSpysProxyClient()
 	if err != nil {
-		return "", err
+		return err
+	}
+	a.client = client
+	return err
+}
+
+// fetchHTML fetches HTML content from the given URL and returns it as a string.
+func (a *Application) fetchHTML(url string) (string, error) {
+	resp, err := a.client.Get(url)
+	if err != nil {
+		// Update proxy and try again
+		a.updateProxy()
+		resp, err = a.client.Get(url)
+		if err != nil {
+			return "", err
+		}
 	}
 	defer resp.Body.Close()
 
